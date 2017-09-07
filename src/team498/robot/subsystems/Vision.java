@@ -80,7 +80,6 @@ public class Vision extends Subsystem {
                     // Check whether it's time to evaluate a new rame
                     currentFrameTime = sink.grabFrameNoTimeout(image);
                     if (currentFrameTime == 0 || currentFrameTime == prevFrameTime) {
-                        // logger.warn("No Frame to grab");
                         continue;
                     }
                     prevFrameTime = currentFrameTime;
