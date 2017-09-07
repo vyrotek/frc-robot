@@ -70,8 +70,7 @@ public class Vision extends Subsystem {
     public void startThread() {
 
         if (thread == null) {
-            // Create a new thread that will constantly evaluate new camera
-            // frames
+            // Create a new thread that will constantly evaluate new camera frames
             thread = new Thread(() -> {
 
                 Mat image = new Mat(CAMERA_HEIGHT, CAMERA_WIDTH, 6);
@@ -104,9 +103,9 @@ public class Vision extends Subsystem {
 
                 }
             });
+            
+            thread.start();
         }
-
-        thread.start();
     }
 
     public String getThreadState() {

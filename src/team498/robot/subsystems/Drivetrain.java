@@ -29,8 +29,7 @@ public class Drivetrain extends Subsystem {
         super("Drivetrain");
 
         // Initialize drive
-        drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR,
-                Mapping.RIGHT_BACK_MOTOR);
+        drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR, Mapping.RIGHT_BACK_MOTOR);
 
         // Intialize encoders
         leftEncoder = new Encoder(Mapping.LEFT_ENCODER_A, Mapping.LEFT_ENCODER_B);
