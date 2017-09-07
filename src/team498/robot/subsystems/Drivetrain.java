@@ -10,93 +10,93 @@ import team498.robot.commands.Drive;
 
 public class Drivetrain extends Subsystem {
 
-	// Drive
-	private RobotDrive drive;
+    // Drive
+    private RobotDrive drive;
 
-	// Encoders
-	private Encoder leftEncoder;
-	private Encoder rightEncoder;
+    // Encoders
+    private Encoder leftEncoder;
+    private Encoder rightEncoder;
 
-	private final double wheelDiameter = 0.1016;
-	private final double pulsePerRevolution = 256;
-	private final double wheelCircumference = wheelDiameter * Math.PI;
-	private final double meterPerPulse = wheelCircumference / pulsePerRevolution;
+    private final double wheelDiameter = 0.1016;
+    private final double pulsePerRevolution = 256;
+    private final double wheelCircumference = wheelDiameter * Math.PI;
+    private final double meterPerPulse = wheelCircumference / pulsePerRevolution;
 
-	private double currentMoveValue = 0;
-	private double currentRotateValue = 0;
+    private double currentMoveValue = 0;
+    private double currentRotateValue = 0;
 
-	public Drivetrain() {
-		super("Drivetrain");
+    public Drivetrain() {
+        super("Drivetrain");
 
-		// Initialize drive
-		drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR,
-				Mapping.RIGHT_BACK_MOTOR);
+        // Initialize drive
+        drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR,
+                Mapping.RIGHT_BACK_MOTOR);
 
-		// Intialize encoders
-		leftEncoder = new Encoder(Mapping.LEFT_ENCODER_A, Mapping.LEFT_ENCODER_B);
-		rightEncoder = new Encoder(Mapping.RIGHT_ENCODER_A, Mapping.RIGHT_ENCODER_B);
+        // Intialize encoders
+        leftEncoder = new Encoder(Mapping.LEFT_ENCODER_A, Mapping.LEFT_ENCODER_B);
+        rightEncoder = new Encoder(Mapping.RIGHT_ENCODER_A, Mapping.RIGHT_ENCODER_B);
 
-		// Configure encoders
-		leftEncoder.setDistancePerPulse(meterPerPulse);
-		rightEncoder.setDistancePerPulse(meterPerPulse);
-		leftEncoder.reset();
-		rightEncoder.reset();
-	}
+        // Configure encoders
+        leftEncoder.setDistancePerPulse(meterPerPulse);
+        rightEncoder.setDistancePerPulse(meterPerPulse);
+        leftEncoder.reset();
+        rightEncoder.reset();
+    }
 
-	@Override
-	protected void initDefaultCommand() {
-		setDefaultCommand(new Drive());
-	}
+    @Override
+    protected void initDefaultCommand() {
+        setDefaultCommand(new Drive());
+    }
 
-	public void drive(double moveValue, double rotateValue) {
+    public void drive(double moveValue, double rotateValue) {
 
-		// Temporarily remmber the last values for the dashboard
-		currentMoveValue = moveValue;
-		currentRotateValue = rotateValue;
+        // Temporarily remmber the last values for the dashboard
+        currentMoveValue = moveValue;
+        currentRotateValue = rotateValue;
 
-		// Apply motor power based on aracade drive mode
-		drive.arcadeDrive(moveValue, rotateValue);
-	}
+        // Apply motor power based on aracade drive mode
+        drive.arcadeDrive(moveValue, rotateValue);
+    }
 
-	public void stop() {
-		drive.stopMotor();
-	}
+    public void stop() {
+        drive.stopMotor();
+    }
 
-	public double getLeftRPM() {
-		return leftEncoder.getRate() * 60 / (2 * Math.PI * (wheelDiameter / 2));
-	}
+    public double getLeftRPM() {
+        return leftEncoder.getRate() * 60 / (2 * Math.PI * (wheelDiameter / 2));
+    }
 
-	public double getRightRPM() {
-		return rightEncoder.getRate() * 60 / (2 * Math.PI * (wheelDiameter / 2));
-	}
+    public double getRightRPM() {
+        return rightEncoder.getRate() * 60 / (2 * Math.PI * (wheelDiameter / 2));
+    }
 
-	public double getLeftDistance() {
-		return leftEncoder.getDistance();
-	}
+    public double getLeftDistance() {
+        return leftEncoder.getDistance();
+    }
 
-	public double getRightDistance() {
-		return rightEncoder.getDistance();
-	}
+    public double getRightDistance() {
+        return rightEncoder.getDistance();
+    }
 
-	public void resetEncoders() {
-		leftEncoder.reset();
-		rightEncoder.reset();
-	}
+    public void resetEncoders() {
+        leftEncoder.reset();
+        rightEncoder.reset();
+    }
 
-	/**
-	 * Updates the SmartDashboard with Drivetrain data
-	 */
-	public void updateDashboard() {
+    /**
+     * Updates the SmartDashboard with Drivetrain data
+     */
+    public void updateDashboard() {
 
-		SmartDashboard.putNumber(Dashboard.DrivetrainMoveValue, currentMoveValue);
-		SmartDashboard.putNumber(Dashboard.DrivetrainRotateValue, currentRotateValue);
+        SmartDashboard.putNumber(Dashboard.DrivetrainMoveValue, currentMoveValue);
+        SmartDashboard.putNumber(Dashboard.DrivetrainRotateValue, currentRotateValue);
 
-		SmartDashboard.putNumber(Dashboard.DrivetrainLeftEncoderRPM, getLeftRPM());
-		SmartDashboard.putNumber(Dashboard.DrivetrainRightEncoderRPM, getRightRPM());
+        SmartDashboard.putNumber(Dashboard.DrivetrainLeftEncoderRPM, getLeftRPM());
+        SmartDashboard.putNumber(Dashboard.DrivetrainRightEncoderRPM, getRightRPM());
 
-		SmartDashboard.putNumber(Dashboard.DrivetrainLeftEncoderDistance, getLeftDistance());
-		SmartDashboard.putNumber(Dashboard.DrivetrainRightEncoderDistance, getRightDistance());
+        SmartDashboard.putNumber(Dashboard.DrivetrainLeftEncoderDistance, getLeftDistance());
+        SmartDashboard.putNumber(Dashboard.DrivetrainRightEncoderDistance, getRightDistance());
 
-	}
+    }
 
 }

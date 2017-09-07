@@ -15,96 +15,96 @@ import team498.robot.subsystems.Vision;
 
 public class Robot extends IterativeRobot {
 
-	// Intialize network table for robot data
-	public static NetworkTable networkTable = NetworkTable.getTable("robot");
+    // Intialize network table for robot data
+    public static NetworkTable networkTable = NetworkTable.getTable("robot");
 
-	// Initialize operator controls
-	public static Operator operator = new Operator();
+    // Initialize operator controls
+    public static Operator operator = new Operator();
 
-	// Initialize subsystems
-	public static Drivetrain drivetrain = new Drivetrain();
-	public static Vision vision = new Vision();
-	// TODO: Add subsystems
+    // Initialize subsystems
+    public static Drivetrain drivetrain = new Drivetrain();
+    public static Vision vision = new Vision();
+    // TODO: Add subsystems
 
-	// Autonomous selections
-	SendableChooser<Command> chooser = new SendableChooser<>();
-	Command autonomousCommand;
+    // Autonomous selections
+    SendableChooser<Command> chooser = new SendableChooser<>();
+    Command autonomousCommand;
 
-	@Override
-	public void robotInit() {
-		
-		// Start vision processing thread
-		vision.startThread();
-		
-		// Add autonomous choices to SmartDashboard
-		addAutonomousChoices();		
-		
-		// Init SmartDashboard
-		updateDashboard();
-	}
+    @Override
+    public void robotInit() {
 
-	@Override
-	public void disabledInit() {
+        // Start vision processing thread
+        vision.startThread();
 
-	}
+        // Add autonomous choices to SmartDashboard
+        addAutonomousChoices();
 
-	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-	}
+        // Init SmartDashboard
+        updateDashboard();
+    }
 
-	@Override
-	public void autonomousInit() {
+    @Override
+    public void disabledInit() {
 
-		// Find selected autonomous command
-		autonomousCommand = chooser.getSelected();
+    }
 
-		// Start autonomous command
-		if (autonomousCommand != null)
-			autonomousCommand.start();
-	}
+    @Override
+    public void disabledPeriodic() {
+        Scheduler.getInstance().run();
+    }
 
-	@Override
-	public void autonomousPeriodic() {
-		updateDashboard();
-		Scheduler.getInstance().run();
-	}
+    @Override
+    public void autonomousInit() {
 
-	@Override
-	public void teleopInit() {
-		// Stop the autonomous command when teleop starts
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
-	}
+        // Find selected autonomous command
+        autonomousCommand = chooser.getSelected();
 
-	@Override
-	public void teleopPeriodic() {
-		updateDashboard();
-		Scheduler.getInstance().run();
-	}
+        // Start autonomous command
+        if (autonomousCommand != null)
+            autonomousCommand.start();
+    }
 
-	@Override
-	public void testPeriodic() {
-		LiveWindow.run();
-	}
+    @Override
+    public void autonomousPeriodic() {
+        updateDashboard();
+        Scheduler.getInstance().run();
+    }
 
-	private void addAutonomousChoices() {
+    @Override
+    public void teleopInit() {
+        // Stop the autonomous command when teleop starts
+        if (autonomousCommand != null)
+            autonomousCommand.cancel();
+    }
 
-		// Add available autonomous commands with the SmartDashboard
-		chooser.addDefault("None", null);
-		chooser.addObject("AutoCrossLine", new AutoCrossLine());
+    @Override
+    public void teleopPeriodic() {
+        updateDashboard();
+        Scheduler.getInstance().run();
+    }
 
-		SmartDashboard.putData(Dashboard.AutonomousChooser, chooser);
-	}
+    @Override
+    public void testPeriodic() {
+        LiveWindow.run();
+    }
 
-	/**
-	 * Update the SmartDashboard with data from all robot systems
-	 */
-	private void updateDashboard() {
-		
-		operator.updateDashboard();
-		drivetrain.updateDashboard();
-		vision.updateDashboard();
-		
-	}
+    private void addAutonomousChoices() {
+
+        // Add available autonomous commands with the SmartDashboard
+        chooser.addDefault("None", null);
+        chooser.addObject("AutoCrossLine", new AutoCrossLine());
+
+        SmartDashboard.putData(Dashboard.AutonomousChooser, chooser);
+    }
+
+    /**
+     * Update the SmartDashboard with data from all robot systems
+     */
+    private void updateDashboard() {
+
+        operator.updateDashboard();
+        drivetrain.updateDashboard();
+        vision.updateDashboard();
+
+    }
 }

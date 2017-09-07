@@ -9,15 +9,15 @@ import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 public class Pipeline implements VisionPipeline {
 
-	// TODO: Generate pipeline using OpenCV/Grip
+    // TODO: Generate pipeline using OpenCV/Grip
 
-	@Override
-	public void process(Mat image) {
-		// TODO Auto-generated method stub
-	}
+    @Override
+    public void process(Mat image) {
+        // TODO Auto-generated method stub
+    }
 
-	public ArrayList<MatOfPoint> filterContoursOutput() {
-		return null;
-	}
+    public ArrayList<MatOfPoint> filterContoursOutput() {
+        return null;
+    }
 
 }

@@ -9,8 +9,8 @@ public class Drive extends Command {
     private boolean hasFinished;
 
     public Drive() {
-    	super("DriveCommand");
-    	
+        super("DriveCommand");
+
         // Acquire control of the drivetrain subsystem
         requires(Robot.drivetrain);
 
@@ -31,13 +31,13 @@ public class Drive extends Command {
         Robot.drivetrain.drive(moveValue, rotateValue);
     }
 
-    protected void end() {    	
-    	Robot.drivetrain.stop();
+    protected void end() {
+        Robot.drivetrain.stop();
         hasFinished = true;
     }
 
-    protected void interrupted() {    	
-    	Robot.drivetrain.stop();
+    protected void interrupted() {
+        Robot.drivetrain.stop();
         hasFinished = true;
     }
 
