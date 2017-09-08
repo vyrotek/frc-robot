@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import team498.robot.commands.AutoCrossLine;
 import team498.robot.subsystems.Drivetrain;
 import team498.robot.subsystems.Vision;
+import team498.robot.subsystems.Gyro;
 
 public class Robot extends IterativeRobot {
 
@@ -24,6 +25,7 @@ public class Robot extends IterativeRobot {
     // Initialize subsystems
     public static Drivetrain drivetrain = new Drivetrain();
     public static Vision vision = new Vision();
+    public static Gyro gyro = new Gyro();
     // TODO: Add subsystems
 
     // Autonomous selections
@@ -93,7 +95,8 @@ public class Robot extends IterativeRobot {
         // Add available autonomous commands with the SmartDashboard
         chooser.addDefault("None", null);
         chooser.addObject("AutoCrossLine", new AutoCrossLine());
-
+        // TODO: Add autonomous modes
+        
         SmartDashboard.putData(Dashboard.AutonomousChooser, chooser);
     }
 
@@ -105,6 +108,7 @@ public class Robot extends IterativeRobot {
         operator.updateDashboard();
         drivetrain.updateDashboard();
         vision.updateDashboard();
+        gyro.updateDashboard();
 
     }
 }

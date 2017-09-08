@@ -26,11 +26,12 @@ public class Dashboard {
     // Drivetrain
     public static final String DrivetrainMoveValue = "DrivetrainMoveValue";
     public static final String DrivetrainRotateValue = "DrivetrainRotateValue";
-    public static final String DrivetrainLeftEncoderRPM = "DrivetrainLeftEncoderRPM";
-    public static final String DrivetrainRightEncoderRPM = "DrivetrainRightEncoderRPM";
-    public static final String DrivetrainLeftEncoderDistance = "DrivetrainLeftEncoderDistance";
-    public static final String DrivetrainRightEncoderDistance = "DrivetrainRightEncoderDistance";
+    public static final String DrivetrainEncoderRPM = "DrivetrainLeftEncoderRPM";
+    public static final String DrivetrainEncoderDistance = "DrivetrainEncoderDistance";
 
+    // Gyro
+    public static final String GyroAngle = "GyroAngle";
+    
     // Vision
     public static final String VisionThreadState = "VisionThreadState";
 

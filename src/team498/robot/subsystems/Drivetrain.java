@@ -10,17 +10,17 @@ import team498.robot.commands.Drive;
 
 public class Drivetrain extends Subsystem {
 
+    private static final double WHEEL_DIAMETER = 0.1016;
+    private static final double PULSE_PER_REVOLUTION = 256;
+    private static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
+    private static final double METER_PER_PULSE = WHEEL_CIRCUMFERENCE / PULSE_PER_REVOLUTION;
+
     // Drive
-    private RobotDrive drive;
+    private RobotDrive drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR, Mapping.RIGHT_BACK_MOTOR);
 
     // Encoders
-    private Encoder leftEncoder;
-    private Encoder rightEncoder;
-
-    private final double wheelDiameter = 0.1016;
-    private final double pulsePerRevolution = 256;
-    private final double wheelCircumference = wheelDiameter * Math.PI;
-    private final double meterPerPulse = wheelCircumference / pulsePerRevolution;
+    private Encoder leftEncoder = new Encoder(Mapping.LEFT_ENCODER_A, Mapping.LEFT_ENCODER_B);
+    private Encoder rightEncoder = new Encoder(Mapping.RIGHT_ENCODER_A, Mapping.RIGHT_ENCODER_B);
 
     private double currentMoveValue = 0;
     private double currentRotateValue = 0;
@@ -28,16 +28,9 @@ public class Drivetrain extends Subsystem {
     public Drivetrain() {
         super("Drivetrain");
 
-        // Initialize drive
-        drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR, Mapping.RIGHT_BACK_MOTOR);
+        leftEncoder.setDistancePerPulse(METER_PER_PULSE);
+        rightEncoder.setDistancePerPulse(METER_PER_PULSE);
 
-        // Intialize encoders
-        leftEncoder = new Encoder(Mapping.LEFT_ENCODER_A, Mapping.LEFT_ENCODER_B);
-        rightEncoder = new Encoder(Mapping.RIGHT_ENCODER_A, Mapping.RIGHT_ENCODER_B);
-
-        // Configure encoders
-        leftEncoder.setDistancePerPulse(meterPerPulse);
-        rightEncoder.setDistancePerPulse(meterPerPulse);
         leftEncoder.reset();
         rightEncoder.reset();
     }
@@ -53,20 +46,24 @@ public class Drivetrain extends Subsystem {
         currentMoveValue = moveValue;
         currentRotateValue = rotateValue;
 
-        // Apply motor power based on aracade drive mode
+        // Apply motor power based on aracade inputs
         drive.arcadeDrive(moveValue, rotateValue);
     }
-
+     
     public void stop() {
         drive.stopMotor();
     }
 
     public double getLeftRPM() {
-        return leftEncoder.getRate() * 60 / (2 * Math.PI * (wheelDiameter / 2));
+        return leftEncoder.getRate() * 60 / (2 * Math.PI * (WHEEL_DIAMETER / 2));
     }
 
     public double getRightRPM() {
-        return rightEncoder.getRate() * 60 / (2 * Math.PI * (wheelDiameter / 2));
+        return rightEncoder.getRate() * 60 / (2 * Math.PI * (WHEEL_DIAMETER / 2));
+    }
+    
+    public double getRPM(){
+        return (getLeftRPM() + getRightRPM()) / 2;
     }
 
     public double getLeftDistance() {
@@ -75,6 +72,10 @@ public class Drivetrain extends Subsystem {
 
     public double getRightDistance() {
         return rightEncoder.getDistance();
+    }
+    
+    public double getDistance() {
+        return (getLeftDistance() + getRightDistance()) / 2;
     }
 
     public void resetEncoders() {
@@ -90,12 +91,8 @@ public class Drivetrain extends Subsystem {
         SmartDashboard.putNumber(Dashboard.DrivetrainMoveValue, currentMoveValue);
         SmartDashboard.putNumber(Dashboard.DrivetrainRotateValue, currentRotateValue);
 
-        SmartDashboard.putNumber(Dashboard.DrivetrainLeftEncoderRPM, getLeftRPM());
-        SmartDashboard.putNumber(Dashboard.DrivetrainRightEncoderRPM, getRightRPM());
-
-        SmartDashboard.putNumber(Dashboard.DrivetrainLeftEncoderDistance, getLeftDistance());
-        SmartDashboard.putNumber(Dashboard.DrivetrainRightEncoderDistance, getRightDistance());
+        SmartDashboard.putNumber(Dashboard.DrivetrainEncoderRPM, getRPM());
+        SmartDashboard.putNumber(Dashboard.DrivetrainEncoderDistance, getDistance());
 
     }
-
 }

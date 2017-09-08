@@ -13,6 +13,7 @@ public class Operator {
 
         controller = new Controller(Mapping.JOYSTICK_PORT);
 
+        // TODO: Map buttons and axes to commands        
         // controller.buttonA.whileHeld(new Example());
         // controller.buttonB.whileHeld(new Example());
 

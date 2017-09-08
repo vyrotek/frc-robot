@@ -2,15 +2,17 @@ package team498.robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+import team498.robot.commands.AutoDriveStraight;
+import team498.robot.commands.AutoRotate;
+
 public class AutoCrossLine extends CommandGroup {
 
     public AutoCrossLine() {
         super("AutoCrossLine");
 
-        // TODO: Add sequential command steps
-        // addSequential(new MoveFoward());
-        // addSequential(new TurnLeft(5000));
-        // addSequential(new TurnRight(4000));
+        // Add sequential command steps
+        addSequential(new AutoDriveStraight(1, 1));
+        addSequential(new AutoRotate(90));
     }
 
 }

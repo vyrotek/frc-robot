@@ -1,49 +1,49 @@
 package team498.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import team498.robot.Operator;
 import team498.robot.Robot;
 
 public class Drive extends Command {
 
-    private boolean hasFinished;
-
     public Drive() {
-        super("DriveCommand");
+        super("Drive");
 
-        // Acquire control of the drivetrain subsystem
+        // Acquire control of subsystems
         requires(Robot.drivetrain);
+        requires(Robot.gyro);
 
-        hasFinished = false;
     }
 
     protected void initialize() {
-        hasFinished = false;
     }
 
     protected void execute() {
 
-        // Retrieve move and turn input values from the controller
-        double moveValue = Operator.controller.axisRightTrigger.getRawAxisValue();
-        double rotateValue = Operator.controller.axisLeftX.getRawAxisValue();
+        // Get power and turn input values from the controller
+        double power = Operator.controller.axisRightTrigger.getRawAxisValue();
+        double turn = Operator.controller.axisLeftX.getRawAxisValue();
 
-        // Provide drivetrain with move and rotate values
-        Robot.drivetrain.drive(moveValue, rotateValue);
-    }
+        // TODO: Use PID to ramp power
+        // TODO: Use gyro to adjust turn for any mechanical drift
 
-    protected void end() {
-        Robot.drivetrain.stop();
-        hasFinished = true;
+        // Drive robot
+        Robot.drivetrain.drive(power, turn);
+
     }
 
     protected void interrupted() {
-        Robot.drivetrain.stop();
-        hasFinished = true;
+        end();
     }
 
     @Override
     protected boolean isFinished() {
-        return hasFinished;
+        return false;
+    }
+
+    protected void end() {
+        Robot.drivetrain.stop();
     }
 
 }
