@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,16 +15,13 @@ import team498.robot.subsystems.Gyro;
 
 public class Robot extends IterativeRobot {
 
-    // Intialize network table for robot data
-    public static NetworkTable networkTable = NetworkTable.getTable("robot");
+    // Operator controls
+    private Operator operator = Operator.getOperator();
 
-    // Initialize operator controls
-    public static Operator operator = new Operator();
-
-    // Initialize subsystems
-    public static Drivetrain drivetrain = new Drivetrain();
-    public static Vision vision = new Vision();
-    public static Gyro gyro = new Gyro();
+    // Subsystems
+    private Drivetrain drivetrain = Drivetrain.getDrivetrain();
+    private Vision vision = Vision.getVision();
+    private Gyro gyro = Gyro.getGyro();
     // TODO: Add subsystems
 
     // Autonomous selections

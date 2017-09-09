@@ -1,17 +1,28 @@
 package team498.robot;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * This class binds the physical operator controls to robot commands
  */
 public class Operator {
 
-    public static Controller controller;
+    private static Operator operator = null;
+    
+    /**
+     * Provides singleton access to the operator controls
+     * @return Operator instance
+     */
+    public static Operator getOperator() {
+        operator = operator == null ? new Operator() : operator;
+        return operator;
+    }
+    
+    public Controller controller;
 
-    public static void init() {
+    private Operator() {
 
-        controller = new Controller(Mapping.JOYSTICK_PORT);
+        controller = new Controller(Mapping.JOYSTICK);
 
         // TODO: Map buttons and axes to commands        
         // controller.buttonA.whileHeld(new Example());

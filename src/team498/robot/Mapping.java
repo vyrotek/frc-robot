@@ -12,40 +12,30 @@ public class Mapping {
     public static final int RIGHT_BACK_MOTOR = 5;
 
     // Camera
-    public static final int CAMERA_PORT = 0;
-    public static final int MJPEG_SERVER_PORT = 0;
+    public static final int CAMERA = 0;
+    public static final int MJPEG_SERVER = 0;
 
-    // Encoder Ports
+    // Encoders
     public static final int LEFT_ENCODER_A = 2;
     public static final int LEFT_ENCODER_B = 3;
     public static final int RIGHT_ENCODER_A = 8;
     public static final int RIGHT_ENCODER_B = 9;
 
     // Subsystem Motors
-    public static final int CONVEYOR_MOTOR = 1;
-    public static final int SHOOT_MOTOR_A = 2;
-    public static final int SHOOT_MOTOR_B = 3;
-    public static final int INDEXER_MOTOR = 7;
+    public static final int EXAMPLE_MOTOR = 1;
 
     // Compressor
     public static final int COMPRESSOR = 0;
 
     // Pneumatics
-    public static final int GEARDOOR_FORWARD = 3;
-    public static final int GEARDOOR_REVERSE = 4;
-    public static final int INTAKE_FORWARD = 2;
-    public static final int INTAKE_REVERSE = 5;
-    public static final int GEARSHIFTER_FORWARD = 1;
-    public static final int GEARSHIFTER_REVERSE = 6;
-    public static final int CLIMBER_FORWARD = 0;
-    public static final int CLIMBER_REVERSE = 7;
+    public static final int EXAMPLE_FORWARD = 0;
+    public static final int EXAMPLE_REVERSE = 0;
 
-    // Digital Input Sensors
-    public static final int BUMPER_TOUCH = 0;
-    public static final int IR_SENSOR = 5;
+    // Sensors
+    public static final int EXAMPLE_SENSOR = 0;
 
     // Joystick Controller
-    public static final int JOYSTICK_PORT = 0;
+    public static final int JOYSTICK = 0;
 
     // Joystick Controller Button Numbers
     public static final int BUTTON_A = 1;

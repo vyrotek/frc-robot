@@ -3,17 +3,19 @@ package team498.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import team498.robot.Operator;
-import team498.robot.Robot;
+import team498.robot.subsystems.Drivetrain;
 
 public class Drive extends Command {
 
+    private Operator operator = Operator.getOperator();
+    
+    private Drivetrain drivetrain;
+    
     public Drive() {
         super("Drive");
 
         // Acquire control of subsystems
-        requires(Robot.drivetrain);
-        requires(Robot.gyro);
-
+        requires(this.drivetrain = Drivetrain.getDrivetrain());
     }
 
     protected void initialize() {
@@ -21,15 +23,14 @@ public class Drive extends Command {
 
     protected void execute() {
 
-        // Get power and turn input values from the controller
-        double power = Operator.controller.axisRightTrigger.getRawAxisValue();
-        double turn = Operator.controller.axisLeftX.getRawAxisValue();
+        // Get move and rotate input values from the controller
+        double moveValue = operator.controller.axisRightTrigger.getRawAxisValue();
+        double rotateValue = operator.controller.axisLeftX.getRawAxisValue();
 
         // TODO: Use PID to ramp power
-        // TODO: Use gyro to adjust turn for any mechanical drift
 
         // Drive robot
-        Robot.drivetrain.drive(power, turn);
+        drivetrain.drive(moveValue, rotateValue);
 
     }
 
@@ -43,7 +44,7 @@ public class Drive extends Command {
     }
 
     protected void end() {
-        Robot.drivetrain.stop();
+        drivetrain.stop();
     }
 
 }

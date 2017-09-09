@@ -15,6 +15,17 @@ public class Drivetrain extends Subsystem {
     private static final double WHEEL_CIRCUMFERENCE = WHEEL_DIAMETER * Math.PI;
     private static final double METER_PER_PULSE = WHEEL_CIRCUMFERENCE / PULSE_PER_REVOLUTION;
 
+    private static Drivetrain drivetrain = null;
+    
+    /**
+     * Provides singleton access to the drivetrain subsystem
+     * @return Drivetrain instance
+     */
+    public static Drivetrain getDrivetrain() {
+        drivetrain = drivetrain == null ? new Drivetrain() : drivetrain;
+        return drivetrain;
+    }
+    
     // Drive
     private RobotDrive drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR, Mapping.RIGHT_BACK_MOTOR);
 
@@ -25,7 +36,7 @@ public class Drivetrain extends Subsystem {
     private double currentMoveValue = 0;
     private double currentRotateValue = 0;
 
-    public Drivetrain() {
+    private Drivetrain() {
         super("Drivetrain");
 
         leftEncoder.setDistancePerPulse(METER_PER_PULSE);

@@ -7,12 +7,23 @@ import team498.robot.Dashboard;
 
 public class Gyro extends Subsystem {
     
-    private ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+    private static Gyro gyro = null;
+    
+    /**
+     * Provides singleton access to the gyro subsystem
+     * @return Gyro instance
+     */
+    public static Gyro getGyro() {
+        gyro = gyro == null ? new Gyro() : gyro;
+        return gyro;
+    }
+    
+    private ADXRS450_Gyro sensor = new ADXRS450_Gyro();
 
-    public Gyro() {
+    private Gyro() {
         super("Gyro");
         
-        gyro.calibrate();
+        sensor.calibrate();
     }
 
     @Override
@@ -25,7 +36,7 @@ public class Gyro extends Subsystem {
     }
     
     public void resetAngle(){
-        gyro.reset();
+        sensor.reset();
     }
 
     /**

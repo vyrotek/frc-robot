@@ -3,38 +3,42 @@ package team498.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import team498.robot.Helpers;
-import team498.robot.Robot;
+import team498.robot.subsystems.Drivetrain;
+import team498.robot.subsystems.Gyro;
 
 public class AutoDriveStraight extends Command {
 
+    private Drivetrain drivetrain;
+    private Gyro gyro;
+    
     private double power;
     private double targetDistance;
 
     public AutoDriveStraight(double power, double targetDistance) {
         super("AutoDrive");
 
-        requires(Robot.drivetrain);
-        requires(Robot.gyro);
-
+        requires(this.drivetrain = Drivetrain.getDrivetrain());
+        requires(this.gyro = Gyro.getGyro());
+        
         this.power = power;
         this.targetDistance = targetDistance;
     }
 
     protected void initialize() {
-        Robot.gyro.resetAngle();
+        gyro.resetAngle();
     }
 
     protected void execute() {
 
         // Get current angle
-        double currentAngle = Robot.gyro.getAngle();
+        double currentAngle = gyro.getAngle();
 
         // Calculate how much correction is need to move straight
         double rotateValue = Helpers.range(-currentAngle * 0.03, -1, 1);
         // double rotateValue = Helpers.range(-((currentAngle - 0) / 100), -1, 1);
                         
         // Drive robot
-        Robot.drivetrain.drive(power, rotateValue);
+        drivetrain.drive(power, rotateValue);
     }
 
     protected void interrupted() {
@@ -43,11 +47,11 @@ public class AutoDriveStraight extends Command {
 
     @Override
     protected boolean isFinished() {
-        return Math.abs(Robot.drivetrain.getDistance()) > Math.abs(targetDistance);
+        return Math.abs(drivetrain.getDistance()) > Math.abs(targetDistance);
     }
 
     protected void end() {
-        Robot.drivetrain.stop();
+        drivetrain.stop();
     }
 
 }

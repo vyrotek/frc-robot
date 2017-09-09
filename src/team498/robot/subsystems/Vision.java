@@ -23,13 +23,24 @@ import team498.robot.Pipeline;
 public class Vision extends Subsystem {
 
     // TODO: Consider putting these in SmartDashboard Prefs
-    public static final int CAMERA_WIDTH = 320;
-    public static final int CAMERA_HEIGHT = 240;
-    public static final int CAMERA_FPS = 30;
-    public static final int CAMERA_EXPOSURE = 0;
-    public static final int CAMERA_BRIGHTNESS = 50;
-    public static final PixelFormat CAMERA_PIXEL_FORMAT = PixelFormat.kMJPEG;
+    private static final int CAMERA_WIDTH = 320;
+    private static final int CAMERA_HEIGHT = 240;
+    private static final int CAMERA_FPS = 30;
+    private static final int CAMERA_EXPOSURE = 0;
+    private static final int CAMERA_BRIGHTNESS = 50;
+    private static final PixelFormat CAMERA_PIXEL_FORMAT = PixelFormat.kMJPEG;
 
+    private static Vision vision = null;
+    
+    /**
+     * Provides singleton access to the vision subsystem
+     * @return Vision instance
+     */
+    public static Vision getVision() {
+        vision = vision == null ? new Vision() : vision;
+        return vision;
+    }
+    
     private UsbCamera camera;
     private CvSink sink;
     private CvSource output;
@@ -40,14 +51,14 @@ public class Vision extends Subsystem {
     private long currentFrameTime;
     private long prevFrameTime;
 
-    public Vision() {
+    private Vision() {
         super("Vision");
 
         // Intialize generated pipeline
         pipeline = new Pipeline();
 
         // Intialize USB camera
-        camera = new UsbCamera("UsbCamera", Mapping.CAMERA_PORT);
+        camera = new UsbCamera("UsbCamera", Mapping.CAMERA);
         camera.setVideoMode(CAMERA_PIXEL_FORMAT, CAMERA_WIDTH, CAMERA_HEIGHT, CAMERA_FPS);
         camera.setExposureManual(CAMERA_EXPOSURE);
         camera.setBrightness(CAMERA_BRIGHTNESS);
@@ -59,7 +70,7 @@ public class Vision extends Subsystem {
 
         // Intialize output
         output = new CvSource("CameraSource", CAMERA_PIXEL_FORMAT, CAMERA_WIDTH, CAMERA_HEIGHT, CAMERA_FPS);
-        server = new MjpegServer("OutputServer", Mapping.MJPEG_SERVER_PORT);
+        server = new MjpegServer("OutputServer", Mapping.MJPEG_SERVER);
         server.setSource(output);
     }
 

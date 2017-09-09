@@ -3,38 +3,42 @@ package team498.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 
 import team498.robot.Helpers;
-import team498.robot.Robot;
+import team498.robot.subsystems.Drivetrain;
+import team498.robot.subsystems.Gyro;
 
 public class AutoRotate extends Command {
 
+    private Drivetrain drivetrain;
+    private Gyro gyro;
+    
     private double targetAngle;
     private double currentAngle;
 
     public AutoRotate(double targetAngle) {
         super("AutoRotate");
 
-        requires(Robot.drivetrain);
-        requires(Robot.gyro);
+        requires(this.drivetrain = Drivetrain.getDrivetrain());
+        requires(this.gyro = Gyro.getGyro());
 
         this.targetAngle = targetAngle;
     }
 
     protected void initialize() {
-        Robot.gyro.resetAngle();
+        gyro.resetAngle();
     }
 
     protected void execute() {
 
         // Get current angle
-        currentAngle = Robot.gyro.getAngle();
+        currentAngle = gyro.getAngle();
 
-        // TODO: Use PID with turn value
+        // TODO: Use PID with rotate value
 
         // Calculate how much to turn
         double rotateValue = Helpers.range(-((currentAngle - targetAngle) / 100), -1, 1);
 
         // Turn robot
-        Robot.drivetrain.drive(0, rotateValue);
+        drivetrain.drive(0, rotateValue);
 
     }
 
@@ -49,7 +53,7 @@ public class AutoRotate extends Command {
     }
 
     protected void end() {
-        Robot.drivetrain.stop();
+        drivetrain.stop();
     }
 
 }
