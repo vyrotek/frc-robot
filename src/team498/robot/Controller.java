@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class Controller {
 
+    private static final double AXIS_THRESHOLD = 0.1;
+    
     private Joystick joystick;
 
     public JoystickButton buttonA;
@@ -39,12 +41,12 @@ public class Controller {
         buttonRightBumper = new JoystickButton(joystick, Mapping.BUTTON_RIGHTBUMPER);
 
         // Axes
-        axisLeftX = new JoystickAxis(joystick, Mapping.AXIS_LEFT_X, 0.1);
-        axisLeftY = new JoystickAxis(joystick, Mapping.AXIS_LEFT_Y, 0.1);
-        axisRightX = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_X, 0.1);
-        axisRightY = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_Y, 0.1);
-        axisLeftTrigger = new JoystickAxis(joystick, Mapping.AXIS_LEFT_TRIGGER, 0.1);
-        axisRightTrigger = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_TRIGGER, 0.1);
+        axisLeftX = new JoystickAxis(joystick, Mapping.AXIS_LEFT_X, AXIS_THRESHOLD);
+        axisLeftY = new JoystickAxis(joystick, Mapping.AXIS_LEFT_Y, AXIS_THRESHOLD);
+        axisRightX = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_X, AXIS_THRESHOLD);
+        axisRightY = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_Y, AXIS_THRESHOLD);
+        axisLeftTrigger = new JoystickAxis(joystick, Mapping.AXIS_LEFT_TRIGGER, AXIS_THRESHOLD);
+        axisRightTrigger = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_TRIGGER, AXIS_THRESHOLD);
     }
 
     public void setRumble(double value) {

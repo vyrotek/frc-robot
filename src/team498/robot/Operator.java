@@ -8,26 +8,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Operator {
 
     private static Operator operator = null;
-    
+
     /**
      * Provides singleton access to the operator controls
+     * 
      * @return Operator instance
      */
     public static Operator getOperator() {
         operator = operator == null ? new Operator() : operator;
         return operator;
     }
-    
-    public Controller controller;
+
+    private Controller controller = new Controller(Mapping.JOYSTICK);
 
     private Operator() {
 
-        controller = new Controller(Mapping.JOYSTICK);
-
-        // TODO: Map buttons and axes to commands        
+        // TODO: Map buttons and axes to commands
         // controller.buttonA.whileHeld(new Example());
         // controller.buttonB.whileHeld(new Example());
 
+    }
+
+    public double getRightTriggerRawAxis() {
+        return operator.controller.axisRightTrigger.getRawAxisValue();
+    }
+
+    public double getLeftXRawAxis() {
+        return operator.controller.axisLeftX.getRawAxisValue();
     }
 
     /**

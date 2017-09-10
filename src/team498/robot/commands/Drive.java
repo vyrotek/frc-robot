@@ -24,8 +24,8 @@ public class Drive extends Command {
     protected void execute() {
 
         // Get move and rotate input values from the controller
-        double moveValue = operator.controller.axisRightTrigger.getRawAxisValue();
-        double rotateValue = operator.controller.axisLeftX.getRawAxisValue();
+        double moveValue = operator.getRightTriggerRawAxis();
+        double rotateValue = operator.getLeftXRawAxis();
 
         // TODO: Use PID to ramp power
 
