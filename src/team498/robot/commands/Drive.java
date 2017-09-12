@@ -39,6 +39,9 @@ public class Drive extends Command {
            // Calculate how much correction is need to move straight
             rotate = Helpers.rotateToTarget(gyro.getAngle(), 0, 0, CORRECTION_GAIN);
         }
+        else {
+            gyro.resetAngle();
+        }
 
         // Drive robot
         drivetrain.drive(move, rotate);
