@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import team498.robot.Dashboard;
-import team498.robot.Mapping;
+import team498.robot.Mappings;
 import team498.robot.Pipeline;
 
 public class Vision extends Subsystem {
@@ -58,7 +58,7 @@ public class Vision extends Subsystem {
         pipeline = new Pipeline();
 
         // Intialize USB camera
-        camera = new UsbCamera("UsbCamera", Mapping.CAMERA);
+        camera = new UsbCamera("UsbCamera", Mappings.CAMERA);
         camera.setVideoMode(CAMERA_PIXEL_FORMAT, CAMERA_WIDTH, CAMERA_HEIGHT, CAMERA_FPS);
         camera.setExposureManual(CAMERA_EXPOSURE);
         camera.setBrightness(CAMERA_BRIGHTNESS);
@@ -70,7 +70,7 @@ public class Vision extends Subsystem {
 
         // Intialize output
         output = new CvSource("CameraSource", CAMERA_PIXEL_FORMAT, CAMERA_WIDTH, CAMERA_HEIGHT, CAMERA_FPS);
-        server = new MjpegServer("OutputServer", Mapping.MJPEG_SERVER);
+        server = new MjpegServer("OutputServer", Mappings.MJPEG_SERVER);
         server.setSource(output);
     }
 

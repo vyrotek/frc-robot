@@ -33,20 +33,20 @@ public class Controller {
         joystick = new Joystick(port);
 
         // Buttons
-        buttonA = new JoystickButton(joystick, Mapping.BUTTON_A);
-        buttonB = new JoystickButton(joystick, Mapping.BUTTON_B);
-        buttonX = new JoystickButton(joystick, Mapping.BUTTON_X);
-        buttonY = new JoystickButton(joystick, Mapping.BUTTON_Y);
-        buttonLeftBumper = new JoystickButton(joystick, Mapping.BUTTON_LEFTBUMPER);
-        buttonRightBumper = new JoystickButton(joystick, Mapping.BUTTON_RIGHTBUMPER);
+        buttonA = new JoystickButton(joystick, Mappings.BUTTON_A);
+        buttonB = new JoystickButton(joystick, Mappings.BUTTON_B);
+        buttonX = new JoystickButton(joystick, Mappings.BUTTON_X);
+        buttonY = new JoystickButton(joystick, Mappings.BUTTON_Y);
+        buttonLeftBumper = new JoystickButton(joystick, Mappings.BUTTON_LEFTBUMPER);
+        buttonRightBumper = new JoystickButton(joystick, Mappings.BUTTON_RIGHTBUMPER);
 
         // Axes
-        axisLeftX = new JoystickAxis(joystick, Mapping.AXIS_LEFT_X, AXIS_THRESHOLD);
-        axisLeftY = new JoystickAxis(joystick, Mapping.AXIS_LEFT_Y, AXIS_THRESHOLD);
-        axisRightX = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_X, AXIS_THRESHOLD);
-        axisRightY = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_Y, AXIS_THRESHOLD);
-        axisLeftTrigger = new JoystickAxis(joystick, Mapping.AXIS_LEFT_TRIGGER, AXIS_THRESHOLD);
-        axisRightTrigger = new JoystickAxis(joystick, Mapping.AXIS_RIGHT_TRIGGER, AXIS_THRESHOLD);
+        axisLeftX = new JoystickAxis(joystick, Mappings.AXIS_LEFT_X, AXIS_THRESHOLD);
+        axisLeftY = new JoystickAxis(joystick, Mappings.AXIS_LEFT_Y, AXIS_THRESHOLD);
+        axisRightX = new JoystickAxis(joystick, Mappings.AXIS_RIGHT_X, AXIS_THRESHOLD);
+        axisRightY = new JoystickAxis(joystick, Mappings.AXIS_RIGHT_Y, AXIS_THRESHOLD);
+        axisLeftTrigger = new JoystickAxis(joystick, Mappings.AXIS_LEFT_TRIGGER, AXIS_THRESHOLD);
+        axisRightTrigger = new JoystickAxis(joystick, Mappings.AXIS_RIGHT_TRIGGER, AXIS_THRESHOLD);
     }
 
     public void setRumble(double value) {
@@ -59,35 +59,20 @@ public class Controller {
 
         private Joystick joystick;
         private int axis;
-        private double threshold;
+        private double tolerance;
 
-        public JoystickAxis(Joystick joystick, int axis, double threshold) {
+        public JoystickAxis(Joystick joystick, int axis, double tolerance) {
             this.axis = axis;
             this.joystick = joystick;
-            this.threshold = threshold;
+            this.tolerance = tolerance;
         }
 
         /**
-         * Get raw axis value.
-         * 
+         * Get normalized axis value. 
          * @return Returns raw axis value.
          */
-        public double getRawAxisValue() {
-            return joystick.getRawAxis(axis);
-        }
-
-        /**
-         * Get raw axis value with threshold check.
-         * 
-         * @return Returns raw axis value when above the specified threshold
-         *         otherwise returns 0.
-         */
-        public double getNormalizedAxisValue() {
-            if (Math.abs(joystick.getRawAxis(axis)) < threshold) {
-                return 0;
-            } else {
-                return joystick.getRawAxis(axis);
-            }
+        public double getAxisValue() {
+            return Helpers.normalize(joystick.getRawAxis(axis), tolerance);
         }
 
     }

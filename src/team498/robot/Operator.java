@@ -2,16 +2,12 @@ package team498.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * This class binds the physical operator controls to robot commands
- */
 public class Operator {
 
     private static Operator operator = null;
 
     /**
      * Provides singleton access to the operator controls
-     * 
      * @return Operator instance
      */
     public static Operator getOperator() {
@@ -19,7 +15,7 @@ public class Operator {
         return operator;
     }
 
-    private Controller controller = new Controller(Mapping.JOYSTICK);
+    private Controller controller = new Controller(Mappings.JOYSTICK);
 
     private Operator() {
 
@@ -29,12 +25,18 @@ public class Operator {
 
     }
 
-    public double getRightTriggerRawAxis() {
-        return operator.controller.axisRightTrigger.getRawAxisValue();
+    /**
+     * Get a normalized value for the right trigger axis
+     */
+    public double getRightTriggerAxis() {
+        return operator.controller.axisRightTrigger.getAxisValue();
     }
 
-    public double getLeftXRawAxis() {
-        return operator.controller.axisLeftX.getRawAxisValue();
+    /**
+     * Get a normalized value for the left joystick X axis
+     */
+    public double getLeftXAxis() {
+        return operator.controller.axisLeftX.getAxisValue();
     }
 
     /**
@@ -51,12 +53,12 @@ public class Operator {
         SmartDashboard.putBoolean(Dashboard.OperatorButtonRightBumper, controller.buttonRightBumper.get());
 
         // Axes
-        SmartDashboard.putNumber(Dashboard.OperatorAxisLeftX, controller.axisLeftX.getRawAxisValue());
-        SmartDashboard.putNumber(Dashboard.OperatorAxisLeftY, controller.axisLeftY.getRawAxisValue());
-        SmartDashboard.putNumber(Dashboard.OperatorAxisRightX, controller.axisRightX.getRawAxisValue());
-        SmartDashboard.putNumber(Dashboard.OperatorAxisRightY, controller.axisRightY.getRawAxisValue());
-        SmartDashboard.putNumber(Dashboard.OperatorAxisLeftTrigger, controller.axisLeftTrigger.getRawAxisValue());
-        SmartDashboard.putNumber(Dashboard.OperatorAxisRightTrigger, controller.axisRightTrigger.getRawAxisValue());
+        SmartDashboard.putNumber(Dashboard.OperatorAxisLeftX, controller.axisLeftX.getAxisValue());
+        SmartDashboard.putNumber(Dashboard.OperatorAxisLeftY, controller.axisLeftY.getAxisValue());
+        SmartDashboard.putNumber(Dashboard.OperatorAxisRightX, controller.axisRightX.getAxisValue());
+        SmartDashboard.putNumber(Dashboard.OperatorAxisRightY, controller.axisRightY.getAxisValue());
+        SmartDashboard.putNumber(Dashboard.OperatorAxisLeftTrigger, controller.axisLeftTrigger.getAxisValue());
+        SmartDashboard.putNumber(Dashboard.OperatorAxisRightTrigger, controller.axisRightTrigger.getAxisValue());
 
     }
 

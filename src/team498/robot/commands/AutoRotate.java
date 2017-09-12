@@ -8,12 +8,17 @@ import team498.robot.subsystems.Gyro;
 
 public class AutoRotate extends Command {
 
+    private static final double ANGLE_TOLERANCE = 2.0;
+    private static final double ROTATION_GAIN = 0.01;
+        
     private Drivetrain drivetrain;
     private Gyro gyro;
     
     private double targetAngle;
     private double currentAngle;
 
+    private double rotate;
+    
     public AutoRotate(double targetAngle) {
         super("AutoRotate");
 
@@ -32,13 +37,11 @@ public class AutoRotate extends Command {
         // Get current angle
         currentAngle = gyro.getAngle();
 
-        // TODO: Use PID with rotate value
-
-        // Calculate how much to turn
-        double rotateValue = Helpers.range(-((currentAngle - targetAngle) / 100), -1, 1);
-
+        // Calculate how much to turn - TODO: Calibrate tolerance and gain
+        rotate = Helpers.rotateToTarget(currentAngle, targetAngle, ANGLE_TOLERANCE, ROTATION_GAIN);
+        
         // Turn robot
-        drivetrain.drive(0, rotateValue);
+        drivetrain.drive(0, rotate);
 
     }
 
@@ -48,8 +51,7 @@ public class AutoRotate extends Command {
 
     @Override
     protected boolean isFinished() {
-        // TODO: Calibrate target angle threshold
-        return Math.abs(currentAngle - targetAngle) <= 2;
+        return rotate == 0;
     }
 
     protected void end() {

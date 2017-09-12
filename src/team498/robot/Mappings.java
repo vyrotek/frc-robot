@@ -3,7 +3,7 @@ package team498.robot;
 /**
  * Config contains global port, sensor, and hardware values
  */
-public class Mapping {
+public class Mappings {
 
     // Drivetrain Motors
     public static final int LEFT_FRONT_MOTOR = 4;

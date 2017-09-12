@@ -8,19 +8,21 @@ import team498.robot.subsystems.Gyro;
 
 public class AutoDriveStraight extends Command {
 
+    private static final double CORRECTION_GAIN = 0.03;
+    
     private Drivetrain drivetrain;
     private Gyro gyro;
     
-    private double power;
+    private double move;
     private double targetDistance;
 
-    public AutoDriveStraight(double power, double targetDistance) {
+    public AutoDriveStraight(double move, double targetDistance) {
         super("AutoDrive");
 
         requires(this.drivetrain = Drivetrain.getDrivetrain());
         requires(this.gyro = Gyro.getGyro());
         
-        this.power = power;
+        this.move = move;
         this.targetDistance = targetDistance;
     }
 
@@ -30,15 +32,12 @@ public class AutoDriveStraight extends Command {
 
     protected void execute() {
 
-        // Get current angle
-        double currentAngle = gyro.getAngle();
-
         // Calculate how much correction is need to move straight
-        double rotateValue = Helpers.range(-currentAngle * 0.03, -1, 1);
-        // double rotateValue = Helpers.range(-((currentAngle - 0) / 100), -1, 1);
+        double rotate = Helpers.rotateToTarget(gyro.getAngle(), 0, 0, CORRECTION_GAIN);
                         
-        // Drive robot
-        drivetrain.drive(power, rotateValue);
+        // Drive robot straight with gyro correction
+        drivetrain.drive(move, rotate);
+        
     }
 
     protected void interrupted() {

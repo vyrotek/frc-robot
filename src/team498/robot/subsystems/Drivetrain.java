@@ -4,8 +4,9 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import team498.robot.Dashboard;
-import team498.robot.Mapping;
+import team498.robot.Mappings;
 import team498.robot.commands.Drive;
 
 public class Drivetrain extends Subsystem {
@@ -16,7 +17,7 @@ public class Drivetrain extends Subsystem {
     private static final double METER_PER_PULSE = WHEEL_CIRCUMFERENCE / PULSE_PER_REVOLUTION;
 
     private static Drivetrain drivetrain = null;
-    
+
     /**
      * Provides singleton access to the drivetrain subsystem
      * @return Drivetrain instance
@@ -25,20 +26,20 @@ public class Drivetrain extends Subsystem {
         drivetrain = drivetrain == null ? new Drivetrain() : drivetrain;
         return drivetrain;
     }
-    
+
     // Drive
-    private RobotDrive drive = new RobotDrive(Mapping.LEFT_FRONT_MOTOR, Mapping.LEFT_BACK_MOTOR, Mapping.RIGHT_FRONT_MOTOR, Mapping.RIGHT_BACK_MOTOR);
+    private RobotDrive drive = new RobotDrive(Mappings.LEFT_FRONT_MOTOR, Mappings.LEFT_BACK_MOTOR, Mappings.RIGHT_FRONT_MOTOR, Mappings.RIGHT_BACK_MOTOR);
 
     // Encoders
-    private Encoder leftEncoder = new Encoder(Mapping.LEFT_ENCODER_A, Mapping.LEFT_ENCODER_B);
-    private Encoder rightEncoder = new Encoder(Mapping.RIGHT_ENCODER_A, Mapping.RIGHT_ENCODER_B);
+    private Encoder leftEncoder = new Encoder(Mappings.LEFT_ENCODER_A, Mappings.LEFT_ENCODER_B);
+    private Encoder rightEncoder = new Encoder(Mappings.RIGHT_ENCODER_A, Mappings.RIGHT_ENCODER_B);
 
-    private double currentMoveValue = 0;
-    private double currentRotateValue = 0;
+    private double currentMove = 0;
+    private double currentRotate = 0;
 
     private Drivetrain() {
         super("Drivetrain");
-
+        
         leftEncoder.setDistancePerPulse(METER_PER_PULSE);
         rightEncoder.setDistancePerPulse(METER_PER_PULSE);
 
@@ -51,16 +52,17 @@ public class Drivetrain extends Subsystem {
         setDefaultCommand(new Drive());
     }
 
-    public void drive(double moveValue, double rotateValue) {
+    public void drive(double move, double rotate) {
 
         // Temporarily remmber the last values for the dashboard
-        currentMoveValue = moveValue;
-        currentRotateValue = rotateValue;
+        currentMove = move;
+        currentRotate = rotate;
 
         // Apply motor power based on aracade inputs
-        drive.arcadeDrive(moveValue, rotateValue);
+        drive.arcadeDrive(move, rotate);
+        
     }
-     
+
     public void stop() {
         drive.stopMotor();
     }
@@ -72,8 +74,8 @@ public class Drivetrain extends Subsystem {
     public double getRightRPM() {
         return rightEncoder.getRate() * 60 / (2 * Math.PI * (WHEEL_DIAMETER / 2));
     }
-    
-    public double getRPM(){
+
+    public double getRPM() {
         return (getLeftRPM() + getRightRPM()) / 2;
     }
 
@@ -84,7 +86,7 @@ public class Drivetrain extends Subsystem {
     public double getRightDistance() {
         return rightEncoder.getDistance();
     }
-    
+
     public double getDistance() {
         return (getLeftDistance() + getRightDistance()) / 2;
     }
@@ -93,17 +95,18 @@ public class Drivetrain extends Subsystem {
         leftEncoder.reset();
         rightEncoder.reset();
     }
-
+    
     /**
      * Updates the SmartDashboard with Drivetrain data
      */
     public void updateDashboard() {
 
-        SmartDashboard.putNumber(Dashboard.DrivetrainMoveValue, currentMoveValue);
-        SmartDashboard.putNumber(Dashboard.DrivetrainRotateValue, currentRotateValue);
+        SmartDashboard.putNumber(Dashboard.DrivetrainMoveValue, currentMove);
+        SmartDashboard.putNumber(Dashboard.DrivetrainRotateValue, currentRotate);
 
         SmartDashboard.putNumber(Dashboard.DrivetrainEncoderRPM, getRPM());
         SmartDashboard.putNumber(Dashboard.DrivetrainEncoderDistance, getDistance());
 
     }
+    
 }
